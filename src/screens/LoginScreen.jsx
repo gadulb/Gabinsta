@@ -2,6 +2,8 @@ import { Image, View } from "react-native";
 import { styles } from "../utils/styles";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -11,7 +13,9 @@ export default function LoginScreen({ navigation }) {
     signInWithEmailAndPassword(auth, email, senha)
       .then((userCredencial) => {
         console.log("Usuário logado com sucesso!");
-        navigation.navigate("HomeScreen");
+        setTimeout(() =>{
+          navigation.navigate('TabsNavigation');
+        },100)
       })
       .catch((error) => {
         console.log("Erro ao criar usuário", error);
@@ -72,6 +76,7 @@ export default function LoginScreen({ navigation }) {
             onChangeText={setSenha}
             mode="disabled"
             style={styles.input}
+            secureTextEntry={true}
           />
           <Button onPress={handleLogin} style={styles.botao} textColor="white">
             ENTRAR

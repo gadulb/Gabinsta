@@ -3,6 +3,8 @@ import { styles } from "../utils/styles";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../config/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function RegisterScreen({ navigation }) {
   const [nomeUsu, setNomeUsu] = useState("");
@@ -14,8 +16,7 @@ export default function RegisterScreen({ navigation }) {
       .then((userCredential) => {
         console.log("Usuário criado com sucesso!", userCredential);
         const uid = userCredential.user.uid;
-
-        setDoc(doc(db, "usuario", uid), {
+        setDoc(doc(db, "usuario", uid), { 
           email_usu: email,
           nome_usu: nomeUsu,
           senha_usu: senha,
